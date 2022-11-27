@@ -1,0 +1,51 @@
+<h2 class="h5">אנשי קשר</h2>
+<form #contactForm="ngForm" (ngSubmit)="onSubmit()">
+    <table class="table table-bordered table-secondary">
+        <tr>
+            <th>מועדף</th>
+            <th>שם איש קשר</th>
+            <th>סוג</th>
+            <th>כתובת</th>
+            <th>טלפון נייד</th>
+            <th>דוא"ל</th>
+        </tr>
+        <tr *ngFor="let c of contacts">
+            <td><input type="checkbox" id="" [checked]="c.deliveryFlag" (click)="cancelEvent()">
+            </td>
+            <td>{{c.name}}</td>
+            <td>{{contactType[c.type]?.value}}</td>
+            <td>{{c.address}}</td>
+            <td>{{c.phoneNumber | phone}}</td>
+            <td>{{c.email}}</td>
+        </tr>
+        <tr *ngIf="addContact">
+            <td>
+                <input type="checkbox" [(ngModel)]="contact.deliveryFlag" name="delivFlag" #delivFlag="ngModel" id="" [required]="isRequiredDelFlag" [ngClass]="{'outline-danger': delivFlag.invalid}">
+                <span [hidden]="delivFlag.valid || delivFlag.untouched" class="alert alert-danger">חייב להיות לפחות איש קשר מועדף אחד</span>
+            </td>
+            <td><input type="text" [(ngModel)]="contact.name" name="name" #name="ngModel" id="" required pattern="" [ngClass]="{'outline-danger': name.invalid}"></td>
+            <span [hidden]="name.valid || name.untouched" class="alert alert-danger">רק אותיות עברית</span>
+            <td>
+                <select [(ngModel)]="contact.type" name="type" #type="ngModel" id="" required [ngClass]="{'outline-danger': type.invalid}">
+                    <option *ngFor="let t of contactType" [ngValue]="t.code">{{t.value}}</option>
+                </select>
+                <span [hidden]="type.valid || type.untouched" class="alert alert-danger">סוג - חובה</span>
+            </td>
+            <td>
+                <input type="text" [(ngModel)]="contact.address" name="address" #address="ngModel" id="">
+            </td>
+            <td>
+                <input type="number" [(ngModel)]="contact.phoneNumber" name="phoneNumber" #phoneNumber="ngModel" id=""
+                    required pattern="[0-9]{9}" [ngClass]="{'outline-danger': phoneNumber.invalid}">
+                    <span [hidden]="phoneNumber.valid || phoneNumber.untouched" class="alert alert-danger">רק מספרים, 10 ספרות</span>
+                </td>
+            <td>
+                <input type="email" [(ngModel)]="contact.email" name="email" #email="ngModel" id="" pattern="[\w-\.]+@([\w-]+\.)+[\w-]{2,4}" [ngClass]="{'outline-danger': email.invalid}">
+            </td>
+            <td>
+                <input type="submit" value="+" [disabled]="!contactForm.form.valid">
+            </td>
+        </tr>
+    </table>
+</form>
+<input type="button" class="btn btn-link" (click)="addContact = true;" value="הוסף איש קשר">

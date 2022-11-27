@@ -1,0 +1,77 @@
+<h2 class="h5">ריכוז מידע בתהליך</h2>
+<table class="table table-bordered table-primary">
+    <tr>
+        <th></th>
+        <th>שם</th>
+        <th>ת.ז.</th>
+        <th>גיל</th>
+        <th>כתובת</th>
+    </tr>
+    <tr>
+        <td>פרטי מבוטח</td>
+        <td>{{insured?.firstName}} {{insured?.lastName}}</td>
+        <td>{{insured?.identity}}</td>
+        <td>{{insured?.age}}</td>
+        <td>{{insured?.address?.streetName}}, {{insured?.address?.cityName}}</td>
+    </tr>
+</table>
+<form #claimForm="ngForm" class="row">
+    <div class="col">
+        <div class="form-group">
+            <label for="supClaim">סוג תביעת על:</label>
+            <select class="form-control form-select" [(ngModel)]="details.superClaimType" name="supClaim" #supClaim="ngModel" id="supClaim" required [ngClass]="{'border-danger': supClaim.invalid}">
+                <option *ngFor="let c of supClaimTypeLst" [ngValue]="c.code">{{c.value}}</option>
+            </select>
+        </div>
+        <div [hidden]="supClaim.valid || supClaim.untouched"
+             class="alert alert-danger my-2 p-1">
+          שדה חובה
+        </div>
+        <div class="form-group">
+            <label for="cause">סיבת ארוע:</label>
+            <select class="form-control form-select" [(ngModel)]="details.claimCause" name="cause" #cause="ngModel" id="cause" required [ngClass]="{'border-danger': cause.invalid}">
+                <option *ngFor="let c of claimCauseLst" [ngValue]="c.code">{{c.value}}</option>
+            </select>
+            <div [hidden]="cause.valid || cause.untouched"
+                 class="alert alert-danger my-2 p-1">
+              שדה חובה
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="submdBy">תביעה הוגשה באמצעות:</label>
+            <select class="form-control form-select" [(ngModel)]="details.submitedBy" name="submBy" #submBy="ngModel" id="submBy" required [ngClass]="{'border-danger': submBy.invalid}">
+                <option *ngFor="let c of submitedByLst" [ngValue]="c.code">{{c.value}}</option>
+            </select>
+            <div [hidden]="submBy.valid || submBy.untouched"
+                 class="alert alert-danger my-2 p-1">
+              שדה חובה
+            </div>
+            <div [hidden]="contactsTypes.includes(details.submitedBy)"
+                 class="alert alert-danger my-2 p-1">
+                 חייב להיות איש קשר מאותו הסוג
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="form-group">
+            <label for="date">תאריך ארוע:</label>
+            <input class="form-control" [(ngModel)]="details.eventDate" type="date" name="date" #date="ngModel" id="date" required [ngClass]="{'border-danger': date.invalid}">
+            <div [hidden]="date.valid || date.untouched"
+                 class="alert alert-danger my-2 p-1">
+              שדה חובה
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="injury">מהות הארוע:</label>
+            <select class="form-control form-select" [(ngModel)]="details.injuryType" name="injury" #injury="ngModel" id="injury" [disabled]="!details.claimCause" [required]="details.claimCause!= undefined && details.claimCause!= 0" [ngClass]="{'border-danger': injury.invalid}">
+                <option *ngFor="let i of injTypeLst" [ngValue]="i.code">{{i.value}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="submMethod">אופן קבלת התביעה</label>
+            <select class="form-control form-select" [(ngModel)]="details.submitionMethod" name="submMethod" #submMethod="ngModel" id="submMethod">
+                <option *ngFor="let s of submMethodLst" [ngValue]="s.code">{{s.value}}</option>
+            </select>
+        </div>
+    </div>
+</form>

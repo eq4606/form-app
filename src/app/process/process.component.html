@@ -1,0 +1,15 @@
+<div class="container-fluid w-75">
+    <div class="align-items-baseline bg-opacity-10 bg-secondary justify-content-between rounded row">
+        <p class="col-lg-4">תביעת על: {{claim?.superClaimNum}}</p>
+        <p class="col-lg-4">מצב תביעה: {{claim?.superClaimStatus?.value}}</p>
+        <div class="col-lg-4 d-flex justify-content-end">
+            <input type="button" value="רענון" (click)="reloadCurrent()" class="btn btn-primary">
+        </div>
+    </div>
+    <app-sum-process [contactsTypes]="contactsTypes"></app-sum-process>
+    <app-sum-contacts [contacts]="process.contactPersons" (updateContacts)="onUpdate($event)" class="bg-opacity-10 bg-secondary d-block my-3 p-2 rounded"></app-sum-contacts>
+    <app-contacts [contacts]="process.contactPersons"></app-contacts>
+    <div class="my-3">
+        <input type="button" value="המשך -->" [disabled]="!processSvc.isValidForm.contacts || !processSvc.isValidForm.sumproc" (click)="printForm()" class="btn btn-primary">
+    </div>
+</div>

@@ -1,0 +1,19 @@
+.outline-danger {
+    outline: 1px solid;
+    --bs-border-opacity: 1;
+    outline-color: rgba(var(--bs-danger-rgb), var(--bs-border-opacity)) !important;
+}
+
+tr {
+    position: relative;
+}
+
+span.alert {
+    position: absolute;
+    z-index: 10;
+    top: 100%;
+    width: 100%;
+    inset-inline-start: 0;
+    background: white !important;
+    border: none !important;
+}
